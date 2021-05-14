@@ -1,0 +1,19 @@
+{
+  "profiles": {
+    "Rtl.TVMazeService.Functions": {
+      "commandName": "Project",
+      "commandLineArgs": "host start --port 7074 --nodeDebugPort 5860",
+      "environmentVariables": {
+        "TimerTriggerExpression": "0 0 1 * * * ",
+        "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=TVMazeDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False",
+        "BaseUrl": "http://api.tvmaze.com"
+      }
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "httpPort": 30290,
+      "useSSL": false
+    }
+  }
+}
