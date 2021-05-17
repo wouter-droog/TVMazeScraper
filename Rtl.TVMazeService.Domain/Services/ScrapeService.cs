@@ -20,7 +20,7 @@ namespace Rtl.TVMazeService.Domain.Services
             this.castMemberRepository = castMemberRepository;
             this.tvMazeApiHttpClient = tvMazeApiHttpClient;
 
-            this.taskLimiter = new TaskLimiter(10, TimeSpan.FromSeconds(this.tvMazeApiHttpClient.RateLimitCallPerSecond));
+            this.taskLimiter = new TaskLimiter(1, TimeSpan.FromSeconds(this.tvMazeApiHttpClient.RateLimitCallPerSecond));
         }
 
         /// <summary>
@@ -75,12 +75,11 @@ namespace Rtl.TVMazeService.Domain.Services
             var show = this.showRepository.GetByMazeId(showMazeId);
 
             var castFromMaze = await this.tvMazeApiHttpClient.GetCastFromShow(showMazeId);
-            var mazeIds = castFromMaze.Select(c => c.Person.Id);
+            var castFromMazeWithoutDuplicates = castFromMaze.GroupBy(c => c.Person.Id).Select(i => i.First());
+            var mazeIds = castFromMazeWithoutDuplicates.Select(c => c.Person.Id);
 
             var castMemberIdsInDb = this.castMemberRepository.GetIds(mazeIds);
             await this.castMemberRepository.InsertCastMemberRelationsWithShow(show.Id, castMemberIdsInDb);
-
-            var castFromMazeWithoutDuplicates = castFromMaze.GroupBy(c => c.Person.Id).Select(i => i.First());
 
             var castFromMazeNotInDb = castFromMazeWithoutDuplicates
                 .Where(cm => castMemberIdsInDb.All(cmi => cmi.MazeId != cm.Person.Id));

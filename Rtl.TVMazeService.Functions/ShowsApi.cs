@@ -29,7 +29,7 @@ namespace Rtl.TVMazeService.Functions
                 }
 
                 var pagedShows = await this.showService.GetPagedResult(currentPage, itemsPerPage);
-                return new JsonResult(pagedShows);
+                return new OkObjectResult(pagedShows);
             }
             catch (Exception ex)
             {

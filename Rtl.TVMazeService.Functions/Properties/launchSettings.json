@@ -12,6 +12,11 @@
     "Docker": {
       "commandName": "Docker",
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "BaseUrl": "http://api.tvmaze.com",
+        "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=TVMazeDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False",
+        "ASPNETCORE_URLS": "http://localhost:30290"
+      },
       "httpPort": 30290,
       "useSSL": false
     }
